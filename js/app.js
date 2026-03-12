@@ -136,6 +136,30 @@ const App = {
             }
             this.refreshTree();
         });
+
+        // Mobile menu
+        const hamburgerBtn = document.getElementById('btnHamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileOverlay = document.getElementById('mobileMenuOverlay');
+
+        if (hamburgerBtn && mobileMenu && mobileOverlay) {
+            hamburgerBtn.addEventListener('click', () => this.toggleMobileMenu());
+            mobileOverlay.addEventListener('click', () => this.closeMobileMenu());
+
+            // Mobile menu buttons
+            document.getElementById('btnImportMobile').addEventListener('click', () => {
+                this.closeMobileMenu();
+                this.triggerImport();
+            });
+            document.getElementById('btnExportMobile').addEventListener('click', () => {
+                this.closeMobileMenu();
+                this.exportBackup();
+            });
+            document.getElementById('btnNewTreeMobile').addEventListener('click', () => {
+                this.closeMobileMenu();
+                this.confirmNewTree();
+            });
+        }
     },
 
     updateLangButtons() {
@@ -161,7 +185,10 @@ const App = {
 
     updateStats() {
         const count = DataManager.getPersonCount();
-        document.getElementById('treeStats').textContent = I18n.t('nav.stats', count);
+        const statsText = I18n.t('nav.stats', count);
+        document.getElementById('treeStats').textContent = statsText;
+        const mobileStats = document.getElementById('mobileStats');
+        if (mobileStats) mobileStats.textContent = statsText;
     },
 
     // ========================================
@@ -652,6 +679,31 @@ const App = {
 
     hideConfirmModal() {
         document.getElementById('confirmModal').style.display = 'none';
+    },
+
+    // ========================================
+    // Mobile Menu
+    // ========================================
+
+    toggleMobileMenu() {
+        const menu = document.getElementById('mobileMenu');
+        const overlay = document.getElementById('mobileMenuOverlay');
+        if (!menu || !overlay) return;
+
+        const isOpen = menu.classList.contains('active');
+        if (isOpen) {
+            this.closeMobileMenu();
+        } else {
+            menu.classList.add('active');
+            overlay.classList.add('active');
+        }
+    },
+
+    closeMobileMenu() {
+        const menu = document.getElementById('mobileMenu');
+        const overlay = document.getElementById('mobileMenuOverlay');
+        if (menu) menu.classList.remove('active');
+        if (overlay) overlay.classList.remove('active');
     }
 };
 

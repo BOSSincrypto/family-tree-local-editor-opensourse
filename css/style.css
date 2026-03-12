@@ -32,6 +32,38 @@
     --node-size: 80px;
     --navbar-height: 56px;
     --sidebar-width: 340px;
+    --connection-color: #CBD5E1;
+    --welcome-overlay: rgba(248, 250, 252, 0.95);
+    --canvas-dot: #E2E8F0;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+    --primary: #6B9AFF;
+    --primary-hover: #5A87F0;
+    --primary-light: #1E2A4A;
+    --danger: #F87171;
+    --danger-hover: #EF4444;
+    --success: #4ADE80;
+    --warning: #FBBF24;
+    --text-primary: #F1F5F9;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+    --bg-primary: #1E293B;
+    --bg-secondary: #0F172A;
+    --bg-tertiary: #334155;
+    --border: #334155;
+    --border-light: #1E293B;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+    --male-color: #6B9AFF;
+    --female-color: #F472B6;
+    --male-bg: #1E2A4A;
+    --female-bg: #3B1A2E;
+    --connection-color: #475569;
+    --welcome-overlay: rgba(15, 23, 42, 0.95);
+    --canvas-dot: #334155;
 }
 
 * {
@@ -175,7 +207,7 @@ body {
     overflow: hidden;
     cursor: grab;
     background:
-        radial-gradient(circle, var(--border) 1px, transparent 1px);
+        radial-gradient(circle, var(--canvas-dot) 1px, transparent 1px);
     background-size: 24px 24px;
 }
 
@@ -203,7 +235,7 @@ body {
 
 .tree-connections line,
 .tree-connections path {
-    stroke: #CBD5E1;
+    stroke: var(--connection-color);
     stroke-width: 2;
     fill: none;
 }
@@ -241,7 +273,7 @@ body {
     height: var(--node-size);
     border-radius: 50%;
     background: var(--bg-tertiary);
-    border: 3px solid #CBD5E1;
+    border: 3px solid var(--connection-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -267,7 +299,7 @@ body {
 }
 
 .node-circle .node-avatar-placeholder {
-    color: #94A3B8;
+    color: var(--text-muted);
 }
 
 .node-circle.male .node-avatar-placeholder {
@@ -335,7 +367,7 @@ body {
 .add-node .node-circle {
     width: 60px;
     height: 60px;
-    border: 2px dashed #CBD5E1;
+    border: 2px dashed var(--connection-color);
     background: var(--bg-primary);
     cursor: pointer;
 }
@@ -346,7 +378,7 @@ body {
 }
 
 .add-node .node-circle svg {
-    color: #CBD5E1;
+    color: var(--connection-color);
     transition: color 0.2s ease;
 }
 
@@ -863,7 +895,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(248, 250, 252, 0.95);
+    background: var(--welcome-overlay);
     z-index: 60;
 }
 
@@ -950,6 +982,71 @@ body {
 
 .sidebar::-webkit-scrollbar-thumb:hover {
     background: var(--text-muted);
+}
+
+/* ============================================
+   Theme Toggle & Language Switcher
+   ============================================ */
+
+.navbar-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.theme-toggle {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--bg-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    color: var(--text-secondary);
+    padding: 0;
+}
+
+.theme-toggle:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.lang-switch {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    height: 36px;
+}
+
+.lang-btn {
+    padding: 0 10px;
+    height: 100%;
+    border: none;
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.lang-btn:not(:last-child) {
+    border-right: 1px solid var(--border);
+}
+
+.lang-btn.active {
+    background: var(--primary);
+    color: white;
+}
+
+.lang-btn:hover:not(.active) {
+    background: var(--bg-tertiary);
 }
 
 /* ============================================

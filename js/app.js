@@ -7,6 +7,10 @@ const App = {
     pendingRelation: null, // { targetPersonId, relationType }
 
     init() {
+        // Initialize i18n and theme
+        I18n.init();
+        ThemeManager.init();
+
         // Initialize data manager
         const hasData = DataManager.init();
 
@@ -24,6 +28,9 @@ const App = {
 
         // Setup UI event listeners
         this.setupEventListeners();
+
+        // Update language toggle buttons
+        this.updateLangButtons();
 
         // Check if we have data
         if (hasData && DataManager.getPersonCount() > 0) {
@@ -106,6 +113,34 @@ const App = {
 
         // Confirm modal
         document.getElementById('btnConfirmNo').addEventListener('click', () => this.hideConfirmModal());
+
+        // Theme toggle
+        document.getElementById('btnThemeToggle').addEventListener('click', () => ThemeManager.toggle());
+
+        // Language switcher
+        document.getElementById('btnLangRu').addEventListener('click', () => {
+            I18n.setLang('ru');
+            this.updateLangButtons();
+            this.updateStats();
+            if (this.selectedPersonId) {
+                PersonEditor.openSidebar(this.selectedPersonId);
+            }
+            this.refreshTree();
+        });
+        document.getElementById('btnLangEn').addEventListener('click', () => {
+            I18n.setLang('en');
+            this.updateLangButtons();
+            this.updateStats();
+            if (this.selectedPersonId) {
+                PersonEditor.openSidebar(this.selectedPersonId);
+            }
+            this.refreshTree();
+        });
+    },
+
+    updateLangButtons() {
+        document.getElementById('btnLangRu').classList.toggle('active', I18n.currentLang === 'ru');
+        document.getElementById('btnLangEn').classList.toggle('active', I18n.currentLang === 'en');
     },
 
     // ========================================
@@ -126,7 +161,7 @@ const App = {
 
     updateStats() {
         const count = DataManager.getPersonCount();
-        document.getElementById('treeStats').textContent = `Людей в древе: ${count}`;
+        document.getElementById('treeStats').textContent = I18n.t('nav.stats', count);
     },
 
     // ========================================
@@ -168,8 +203,8 @@ const App = {
     confirmNewTree() {
         if (DataManager.getPersonCount() > 0) {
             this.showConfirm(
-                'Новое древо',
-                'Все текущие данные будут удалены. Вы уверены?',
+                I18n.t('confirm.newTree.title'),
+                I18n.t('confirm.newTree.message'),
                 () => {
                     DataManager.clearData();
                     this.selectedPersonId = null;
@@ -185,9 +220,10 @@ const App = {
 
     showNewPersonModalForRoot() {
         this.pendingRelation = { type: 'root' };
-        document.getElementById('newPersonTitle').textContent = 'Создать главную персону';
+        document.getElementById('newPersonTitle').textContent = I18n.t('modal.createRoot');
         document.getElementById('newFirstName').value = '';
         document.getElementById('newLastName').value = '';
+        if (document.getElementById('newMiddleName')) document.getElementById('newMiddleName').value = '';
         document.getElementById('newBirthDate').value = '';
         document.getElementById('newGenderMale').classList.add('active');
         document.getElementById('newGenderFemale').classList.remove('active');
@@ -231,37 +267,37 @@ const App = {
     addRelativeByType(relationType) {
         if (!this.selectedPersonId) return;
 
-        let title = 'Новая персона';
+        let title = I18n.t('modal.newPerson');
         let defaultGender = 'male';
 
         switch (relationType) {
             case 'father':
-                title = 'Добавить отца';
+                title = I18n.t('modal.addFather');
                 defaultGender = 'male';
                 break;
             case 'mother':
-                title = 'Добавить мать';
+                title = I18n.t('modal.addMother');
                 defaultGender = 'female';
                 break;
             case 'spouse':
                 const person = DataManager.getPerson(this.selectedPersonId);
-                title = 'Добавить супруга(у)';
+                title = I18n.t('modal.addSpouse');
                 defaultGender = person && person.gender === 'male' ? 'female' : 'male';
                 break;
             case 'son':
-                title = 'Добавить сына';
+                title = I18n.t('modal.addSon');
                 defaultGender = 'male';
                 break;
             case 'daughter':
-                title = 'Добавить дочь';
+                title = I18n.t('modal.addDaughter');
                 defaultGender = 'female';
                 break;
             case 'brother':
-                title = 'Добавить брата';
+                title = I18n.t('modal.addBrother');
                 defaultGender = 'male';
                 break;
             case 'sister':
-                title = 'Добавить сестру';
+                title = I18n.t('modal.addSister');
                 defaultGender = 'female';
                 break;
         }
@@ -274,6 +310,7 @@ const App = {
         document.getElementById('newPersonTitle').textContent = title;
         document.getElementById('newFirstName').value = '';
         document.getElementById('newLastName').value = '';
+        if (document.getElementById('newMiddleName')) document.getElementById('newMiddleName').value = '';
         document.getElementById('newBirthDate').value = '';
 
         if (defaultGender === 'male') {
@@ -296,7 +333,7 @@ const App = {
     submitNewPerson() {
         const firstName = document.getElementById('newFirstName').value.trim();
         if (!firstName) {
-            this.showToast('Введите имя', 'error');
+            this.showToast(I18n.t('toast.enterName'), 'error');
             return;
         }
 
@@ -305,6 +342,7 @@ const App = {
         const personData = {
             firstName: firstName,
             lastName: document.getElementById('newLastName').value.trim(),
+            middleName: document.getElementById('newMiddleName') ? document.getElementById('newMiddleName').value.trim() : '',
             gender: gender,
             birthDate: document.getElementById('newBirthDate').value || null
         };
@@ -317,7 +355,7 @@ const App = {
             this.selectedPersonId = rootId;
             this.refreshTree();
             this.fitToScreenInitial();
-            this.showToast('Древо создано');
+            this.showToast(I18n.t('toast.treeCreated'));
             return;
         }
 
@@ -364,7 +402,7 @@ const App = {
 
         // Open the new person in sidebar
         this.onNodeClick(newPersonId);
-        this.showToast('Родственник добавлен');
+        this.showToast(I18n.t('toast.relativeAdded'));
     },
 
     hideNewPersonModal() {
@@ -392,9 +430,9 @@ const App = {
                 PersonEditor.closeSidebar();
                 this.refreshTree();
                 this.fitToScreenInitial();
-                this.showToast('Бекап загружен успешно', 'success');
+                this.showToast(I18n.t('toast.backupLoaded'), 'success');
             } else {
-                this.showToast('Ошибка: неверный формат файла', 'error');
+                this.showToast(I18n.t('toast.backupError'), 'error');
             }
         };
         reader.readAsText(file);
@@ -405,7 +443,7 @@ const App = {
 
     exportBackup() {
         if (DataManager.getPersonCount() === 0) {
-            this.showToast('Нет данных для сохранения', 'error');
+            this.showToast(I18n.t('toast.noData'), 'error');
             return;
         }
 
@@ -422,7 +460,7 @@ const App = {
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
 
-        this.showToast('Бекап сохранён', 'success');
+        this.showToast(I18n.t('toast.backupSaved'), 'success');
     },
 
     // ========================================
@@ -431,7 +469,7 @@ const App = {
 
     saveAsImage() {
         if (DataManager.getPersonCount() === 0) {
-            this.showToast('Нет данных для сохранения', 'error');
+            this.showToast(I18n.t('toast.noData'), 'error');
             return;
         }
 
@@ -518,7 +556,7 @@ const App = {
                 link.click();
                 document.body.removeChild(link);
                 URL.revokeObjectURL(url);
-                this.showToast('Изображение сохранено', 'success');
+                this.showToast(I18n.t('toast.imageSaved'), 'success');
             });
         };
         img.onerror = () => {
@@ -558,7 +596,7 @@ const App = {
                 link.click();
                 document.body.removeChild(link);
                 URL.revokeObjectURL(url);
-                this.showToast('Изображение сохранено', 'success');
+                this.showToast(I18n.t('toast.imageSaved'), 'success');
             });
         };
         img.src = svgUrl;

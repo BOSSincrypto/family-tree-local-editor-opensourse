@@ -19,34 +19,56 @@
                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
             </svg>
-            <h1 class="navbar-title">Family Tree Editor</h1>
+            <h1 class="navbar-title" data-i18n="app.title">Family Tree Editor</h1>
         </div>
         <div class="navbar-center">
-            <span class="tree-stats" id="treeStats">Людей в древе: 0</span>
+            <span class="tree-stats" id="treeStats"></span>
         </div>
         <div class="navbar-right">
-            <button class="btn btn-outline" id="btnImport" title="Загрузить бекап">
+            <div class="navbar-controls">
+                <button class="theme-toggle" id="btnThemeToggle" title="Toggle theme">
+                    <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </button>
+                <div class="lang-switch">
+                    <button class="lang-btn active" id="btnLangRu" data-lang="ru">RU</button>
+                    <button class="lang-btn" id="btnLangEn" data-lang="en">EN</button>
+                </div>
+            </div>
+            <button class="btn btn-outline" id="btnImport" data-i18n-title="nav.import.title">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                     <polyline points="7 10 12 15 17 10"/>
                     <line x1="12" y1="15" x2="12" y2="3"/>
                 </svg>
-                <span>Загрузить</span>
+                <span data-i18n="nav.import">Загрузить</span>
             </button>
-            <button class="btn btn-outline" id="btnExport" title="Сохранить бекап">
+            <button class="btn btn-outline" id="btnExport" data-i18n-title="nav.export.title">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                     <polyline points="17 8 12 3 7 8"/>
                     <line x1="12" y1="3" x2="12" y2="15"/>
                 </svg>
-                <span>Сохранить</span>
+                <span data-i18n="nav.export">Сохранить</span>
             </button>
-            <button class="btn btn-primary" id="btnNewTree" title="Новое древо">
+            <button class="btn btn-primary" id="btnNewTree" data-i18n-title="nav.newTree.title">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="12" y1="5" x2="12" y2="19"/>
                     <line x1="5" y1="12" x2="19" y2="12"/>
                 </svg>
-                <span>Новое древо</span>
+                <span data-i18n="nav.newTree">Новое древо</span>
             </button>
         </div>
     </header>
@@ -66,21 +88,21 @@
             <!-- Welcome Screen -->
             <div class="welcome-screen" id="welcomeScreen">
                 <div class="welcome-card">
-                    <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="#4A7DFF" stroke-width="1.5">
+                    <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="var(--primary)" stroke-width="1.5">
                         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                         <circle cx="9" cy="7" r="4"/>
                         <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
                         <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                     </svg>
-                    <h2>Добро пожаловать в Family Tree Editor</h2>
-                    <p>Создайте новое семейное древо или загрузите существующий бекап</p>
+                    <h2 data-i18n="welcome.title">Добро пожаловать в Family Tree Editor</h2>
+                    <p data-i18n="welcome.subtitle">Создайте новое семейное древо или загрузите существующий бекап</p>
                     <div class="welcome-actions">
                         <button class="btn btn-primary btn-lg" id="btnStartNew">
                             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
                                 <line x1="12" y1="5" x2="12" y2="19"/>
                                 <line x1="5" y1="12" x2="19" y2="12"/>
                             </svg>
-                            Создать новое древо
+                            <span data-i18n="welcome.newTree">Создать новое древо</span>
                         </button>
                         <button class="btn btn-outline btn-lg" id="btnLoadBackup">
                             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
@@ -88,7 +110,7 @@
                                 <polyline points="7 10 12 15 17 10"/>
                                 <line x1="12" y1="15" x2="12" y2="3"/>
                             </svg>
-                            Загрузить бекап
+                            <span data-i18n="welcome.loadBackup">Загрузить бекап</span>
                         </button>
                     </div>
                 </div>
@@ -97,18 +119,18 @@
 
         <!-- Tree Controls (right side) -->
         <div class="tree-controls" id="treeControls">
-            <button class="control-btn" id="btnZoomIn" title="Приблизить">
+            <button class="control-btn" id="btnZoomIn" data-i18n-title="controls.zoomIn">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="12" y1="5" x2="12" y2="19"/>
                     <line x1="5" y1="12" x2="19" y2="12"/>
                 </svg>
             </button>
-            <button class="control-btn" id="btnZoomOut" title="Отдалить">
+            <button class="control-btn" id="btnZoomOut" data-i18n-title="controls.zoomOut">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="5" y1="12" x2="19" y2="12"/>
                 </svg>
             </button>
-            <button class="control-btn" id="btnFitScreen" title="Вписать в экран">
+            <button class="control-btn" id="btnFitScreen" data-i18n-title="controls.fitScreen">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="15 3 21 3 21 9"/>
                     <polyline points="9 21 3 21 3 15"/>
@@ -125,19 +147,19 @@
                 <circle cx="8.5" cy="8.5" r="1.5"/>
                 <polyline points="21 15 16 10 5 21"/>
             </svg>
-            Сохранить как изображение
+            <span data-i18n="controls.saveImage">Сохранить как изображение</span>
         </button>
 
         <!-- Person Detail Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <button class="sidebar-edit-btn" id="btnEditPerson" title="Редактировать">
+                <button class="sidebar-edit-btn" id="btnEditPerson" data-i18n-title="sidebar.edit">
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
                     </svg>
                 </button>
-                <button class="sidebar-close-btn" id="btnCloseSidebar" title="Закрыть">
+                <button class="sidebar-close-btn" id="btnCloseSidebar" data-i18n-title="sidebar.close">
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="18" y1="6" x2="6" y2="18"/>
                         <line x1="6" y1="6" x2="18" y2="18"/>
@@ -148,7 +170,7 @@
             <!-- View Mode -->
             <div class="sidebar-view" id="sidebarView">
                 <div class="person-avatar-large" id="personAvatar">
-                    <svg class="avatar-placeholder" viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#94a3b8" stroke-width="1.5">
+                    <svg class="avatar-placeholder" viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="var(--text-muted)" stroke-width="1.5">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                         <circle cx="12" cy="7" r="4"/>
                     </svg>
@@ -158,24 +180,24 @@
 
                 <div class="sidebar-section">
                     <div class="section-header">
-                        <h3>Родственники</h3>
-                        <button class="section-add-btn" id="btnAddRelative">Добавить</button>
+                        <h3 data-i18n="sidebar.relatives">Родственники</h3>
+                        <button class="section-add-btn" id="btnAddRelative" data-i18n="sidebar.addRelative">Добавить</button>
                     </div>
                     <div class="relatives-list" id="relativesList"></div>
                 </div>
 
                 <div class="sidebar-section">
                     <div class="section-header">
-                        <h3>События</h3>
+                        <h3 data-i18n="sidebar.events">События</h3>
                     </div>
                     <div class="events-list" id="eventsList"></div>
                 </div>
 
                 <div class="sidebar-section">
                     <div class="section-header">
-                        <h3>Биография</h3>
+                        <h3 data-i18n="sidebar.biography">Биография</h3>
                     </div>
-                    <p class="biography-text" id="biographyText">Нет информации</p>
+                    <p class="biography-text" id="biographyText" data-i18n="sidebar.noBio">Нет информации</p>
                 </div>
 
                 <div class="sidebar-section sidebar-danger">
@@ -184,61 +206,61 @@
                             <polyline points="3 6 5 6 21 6"/>
                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
                         </svg>
-                        Удалить персону
+                        <span data-i18n="sidebar.deletePerson">Удалить персону</span>
                     </button>
                 </div>
             </div>
 
             <!-- Edit Mode -->
             <div class="sidebar-edit" id="sidebarEdit" style="display: none;">
-                <h3 class="edit-title" id="editTitle">Редактирование</h3>
+                <h3 class="edit-title" id="editTitle" data-i18n="edit.title">Редактирование</h3>
                 <form id="personForm">
                     <div class="form-group">
-                        <label>Имя</label>
-                        <input type="text" id="editFirstName" placeholder="Введите имя" required>
+                        <label data-i18n="edit.firstName">Имя</label>
+                        <input type="text" id="editFirstName" data-i18n-placeholder="placeholder.firstName" placeholder="Введите имя" required>
                     </div>
                     <div class="form-group">
-                        <label>Фамилия</label>
-                        <input type="text" id="editLastName" placeholder="Введите фамилию">
+                        <label data-i18n="edit.lastName">Фамилия</label>
+                        <input type="text" id="editLastName" data-i18n-placeholder="placeholder.lastName" placeholder="Введите фамилию">
                     </div>
                     <div class="form-group">
-                        <label>Отчество</label>
-                        <input type="text" id="editMiddleName" placeholder="Введите отчество">
+                        <label data-i18n="edit.middleName">Отчество</label>
+                        <input type="text" id="editMiddleName" data-i18n-placeholder="placeholder.middleName" placeholder="Введите отчество">
                     </div>
                     <div class="form-group">
-                        <label>Пол</label>
+                        <label data-i18n="edit.gender">Пол</label>
                         <div class="gender-selector">
-                            <button type="button" class="gender-btn" data-gender="male" id="genderMale">М</button>
-                            <button type="button" class="gender-btn" data-gender="female" id="genderFemale">Ж</button>
+                            <button type="button" class="gender-btn" data-gender="male" id="genderMale" data-i18n="edit.genderMale">М</button>
+                            <button type="button" class="gender-btn" data-gender="female" id="genderFemale" data-i18n="edit.genderFemale">Ж</button>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Дата рождения</label>
+                        <label data-i18n="edit.birthDate">Дата рождения</label>
                         <input type="date" id="editBirthDate">
                     </div>
                     <div class="form-group">
-                        <label>Место рождения</label>
-                        <input type="text" id="editBirthPlace" placeholder="Город, страна">
+                        <label data-i18n="edit.birthPlace">Место рождения</label>
+                        <input type="text" id="editBirthPlace" data-i18n-placeholder="placeholder.birthPlace" placeholder="Город, страна">
                     </div>
                     <div class="form-group">
-                        <label>Дата смерти</label>
+                        <label data-i18n="edit.deathDate">Дата смерти</label>
                         <input type="date" id="editDeathDate">
                     </div>
                     <div class="form-group">
-                        <label>Место смерти</label>
-                        <input type="text" id="editDeathPlace" placeholder="Город, страна">
+                        <label data-i18n="edit.deathPlace">Место смерти</label>
+                        <input type="text" id="editDeathPlace" data-i18n-placeholder="placeholder.deathPlace" placeholder="Город, страна">
                     </div>
                     <div class="form-group">
-                        <label>Биография</label>
-                        <textarea id="editBiography" rows="4" placeholder="Краткая биография..."></textarea>
+                        <label data-i18n="edit.biography">Биография</label>
+                        <textarea id="editBiography" rows="4" data-i18n-placeholder="placeholder.biography" placeholder="Краткая биография..."></textarea>
                     </div>
                     <div class="form-group">
-                        <label>Фото (URL)</label>
-                        <input type="url" id="editPhoto" placeholder="https://...">
+                        <label data-i18n="edit.photo">Фото (URL)</label>
+                        <input type="url" id="editPhoto" data-i18n-placeholder="placeholder.photo" placeholder="https://...">
                     </div>
                     <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">Сохранить</button>
-                        <button type="button" class="btn btn-outline" id="btnCancelEdit">Отмена</button>
+                        <button type="submit" class="btn btn-primary" data-i18n="edit.save">Сохранить</button>
+                        <button type="button" class="btn btn-outline" id="btnCancelEdit" data-i18n="edit.cancel">Отмена</button>
                     </div>
                 </form>
             </div>
@@ -249,7 +271,7 @@
     <div class="modal-overlay" id="addRelativeModal" style="display: none;">
         <div class="modal">
             <div class="modal-header">
-                <h3>Добавить родственника</h3>
+                <h3 data-i18n="modal.addRelative">Добавить родственника</h3>
                 <button class="modal-close" id="btnCloseModal">
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="18" y1="6" x2="6" y2="18"/>
@@ -264,34 +286,34 @@
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                             <circle cx="12" cy="7" r="4"/>
                         </svg>
-                        <span>Отец</span>
+                        <span data-i18n="relation.father">Отец</span>
                     </button>
                     <button class="relation-option" data-relation="mother">
                         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                             <circle cx="12" cy="7" r="4"/>
                         </svg>
-                        <span>Мать</span>
+                        <span data-i18n="relation.mother">Мать</span>
                     </button>
                     <button class="relation-option" data-relation="spouse">
                         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                         </svg>
-                        <span>Супруг(а)</span>
+                        <span data-i18n="relation.spouse">Супруг(а)</span>
                     </button>
                     <button class="relation-option" data-relation="son">
                         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                             <circle cx="12" cy="7" r="4"/>
                         </svg>
-                        <span>Сын</span>
+                        <span data-i18n="relation.son">Сын</span>
                     </button>
                     <button class="relation-option" data-relation="daughter">
                         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                             <circle cx="12" cy="7" r="4"/>
                         </svg>
-                        <span>Дочь</span>
+                        <span data-i18n="relation.daughter">Дочь</span>
                     </button>
                     <button class="relation-option" data-relation="brother">
                         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
@@ -300,7 +322,7 @@
                             <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
                             <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                         </svg>
-                        <span>Брат</span>
+                        <span data-i18n="relation.brother">Брат</span>
                     </button>
                     <button class="relation-option" data-relation="sister">
                         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
@@ -309,7 +331,7 @@
                             <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
                             <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                         </svg>
-                        <span>Сестра</span>
+                        <span data-i18n="relation.sister">Сестра</span>
                     </button>
                 </div>
             </div>
@@ -320,7 +342,7 @@
     <div class="modal-overlay" id="newPersonModal" style="display: none;">
         <div class="modal">
             <div class="modal-header">
-                <h3 id="newPersonTitle">Новая персона</h3>
+                <h3 id="newPersonTitle"></h3>
                 <button class="modal-close" id="btnCloseNewPerson">
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="18" y1="6" x2="6" y2="18"/>
@@ -331,27 +353,31 @@
             <div class="modal-body">
                 <form id="newPersonForm">
                     <div class="form-group">
-                        <label>Имя *</label>
-                        <input type="text" id="newFirstName" placeholder="Введите имя" required>
+                        <label data-i18n="modal.firstNameRequired">Имя *</label>
+                        <input type="text" id="newFirstName" data-i18n-placeholder="placeholder.firstName" placeholder="Введите имя" required>
                     </div>
                     <div class="form-group">
-                        <label>Фамилия</label>
-                        <input type="text" id="newLastName" placeholder="Введите фамилию">
+                        <label data-i18n="edit.lastName">Фамилия</label>
+                        <input type="text" id="newLastName" data-i18n-placeholder="placeholder.lastName" placeholder="Введите фамилию">
                     </div>
                     <div class="form-group">
-                        <label>Пол</label>
+                        <label data-i18n="edit.middleName">Отчество</label>
+                        <input type="text" id="newMiddleName" data-i18n-placeholder="placeholder.middleName" placeholder="Введите отчество">
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="edit.gender">Пол</label>
                         <div class="gender-selector">
-                            <button type="button" class="gender-btn" data-gender="male" id="newGenderMale">М</button>
-                            <button type="button" class="gender-btn" data-gender="female" id="newGenderFemale">Ж</button>
+                            <button type="button" class="gender-btn" data-gender="male" id="newGenderMale" data-i18n="edit.genderMale">М</button>
+                            <button type="button" class="gender-btn" data-gender="female" id="newGenderFemale" data-i18n="edit.genderFemale">Ж</button>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Дата рождения</label>
+                        <label data-i18n="edit.birthDate">Дата рождения</label>
                         <input type="date" id="newBirthDate">
                     </div>
                     <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">Добавить</button>
-                        <button type="button" class="btn btn-outline" id="btnCancelNewPerson">Отмена</button>
+                        <button type="submit" class="btn btn-primary" data-i18n="modal.add">Добавить</button>
+                        <button type="button" class="btn btn-outline" id="btnCancelNewPerson" data-i18n="modal.cancel">Отмена</button>
                     </div>
                 </form>
             </div>
@@ -362,13 +388,13 @@
     <div class="modal-overlay" id="confirmModal" style="display: none;">
         <div class="modal modal-sm">
             <div class="modal-header">
-                <h3 id="confirmTitle">Подтверждение</h3>
+                <h3 id="confirmTitle"></h3>
             </div>
             <div class="modal-body">
                 <p id="confirmMessage"></p>
                 <div class="form-actions">
-                    <button class="btn btn-danger" id="btnConfirmYes">Да</button>
-                    <button class="btn btn-outline" id="btnConfirmNo">Отмена</button>
+                    <button class="btn btn-danger" id="btnConfirmYes" data-i18n="confirm.yes">Да</button>
+                    <button class="btn btn-outline" id="btnConfirmNo" data-i18n="confirm.no">Отмена</button>
                 </div>
             </div>
         </div>
@@ -377,6 +403,8 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast"></div>
 
+    <script src="js/i18n.js"></script>
+    <script src="js/theme.js"></script>
     <script src="js/data-manager.js"></script>
     <script src="js/tree-renderer.js"></script>
     <script src="js/person-editor.js"></script>

@@ -134,17 +134,17 @@ const DataManager = {
     // Get display name for a person
     getDisplayName(id) {
         const person = this.data.persons[id];
-        if (!person) return 'Неизвестно';
+        if (!person) return (typeof I18n !== 'undefined') ? I18n.t('data.unknown') : 'Unknown';
         const parts = [person.firstName, person.lastName].filter(Boolean);
-        return parts.length > 0 ? parts.join(' ') : 'Без имени';
+        return parts.length > 0 ? parts.join(' ') : ((typeof I18n !== 'undefined') ? I18n.t('data.noName') : 'No name');
     },
 
     // Get full name for a person
     getFullName(id) {
         const person = this.data.persons[id];
-        if (!person) return 'Неизвестно';
+        if (!person) return (typeof I18n !== 'undefined') ? I18n.t('data.unknown') : 'Unknown';
         const parts = [person.lastName, person.firstName, person.middleName].filter(Boolean);
-        return parts.length > 0 ? parts.join(' ') : 'Без имени';
+        return parts.length > 0 ? parts.join(' ') : ((typeof I18n !== 'undefined') ? I18n.t('data.noName') : 'No name');
     },
 
     // Add relationship
@@ -225,7 +225,7 @@ const DataManager = {
             if (person) {
                 relatives.push({
                     id: id,
-                    relation: person.gender === 'female' ? 'Мать' : 'Отец',
+                    relation: (typeof I18n !== 'undefined') ? I18n.t(person.gender === 'female' ? 'relation.mother' : 'relation.father') : (person.gender === 'female' ? 'Mother' : 'Father'),
                     type: 'parent'
                 });
             }
@@ -237,7 +237,7 @@ const DataManager = {
             if (person) {
                 relatives.push({
                     id: id,
-                    relation: person.gender === 'female' ? 'Жена' : 'Муж',
+                    relation: (typeof I18n !== 'undefined') ? I18n.t(person.gender === 'female' ? 'relation.wife' : 'relation.husband') : (person.gender === 'female' ? 'Wife' : 'Husband'),
                     type: 'spouse'
                 });
             }
@@ -249,7 +249,7 @@ const DataManager = {
             if (person) {
                 relatives.push({
                     id: id,
-                    relation: person.gender === 'female' ? 'Дочь' : 'Сын',
+                    relation: (typeof I18n !== 'undefined') ? I18n.t(person.gender === 'female' ? 'relation.daughter' : 'relation.son') : (person.gender === 'female' ? 'Daughter' : 'Son'),
                     type: 'child'
                 });
             }
@@ -261,7 +261,7 @@ const DataManager = {
             if (person) {
                 relatives.push({
                     id: id,
-                    relation: person.gender === 'female' ? 'Сестра' : 'Брат',
+                    relation: (typeof I18n !== 'undefined') ? I18n.t(person.gender === 'female' ? 'relation.sister' : 'relation.brother') : (person.gender === 'female' ? 'Sister' : 'Brother'),
                     type: 'sibling'
                 });
             }

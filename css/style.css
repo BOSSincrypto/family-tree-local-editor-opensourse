@@ -1,0 +1,979 @@
+/* ============================================
+   Family Tree Editor - Styles
+   ============================================ */
+
+:root {
+    --primary: #4A7DFF;
+    --primary-hover: #3A6AE8;
+    --primary-light: #EBF0FF;
+    --danger: #EF4444;
+    --danger-hover: #DC2626;
+    --success: #22C55E;
+    --warning: #F59E0B;
+    --text-primary: #1E293B;
+    --text-secondary: #64748B;
+    --text-muted: #94A3B8;
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F8FAFC;
+    --bg-tertiary: #F1F5F9;
+    --border: #E2E8F0;
+    --border-light: #F1F5F9;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --male-color: #4A7DFF;
+    --female-color: #EC4899;
+    --male-bg: #EBF0FF;
+    --female-bg: #FDF2F8;
+    --node-size: 80px;
+    --navbar-height: 56px;
+    --sidebar-width: 340px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* ============================================
+   Navbar
+   ============================================ */
+
+.navbar {
+    height: var(--navbar-height);
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 100;
+    position: relative;
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbar-icon {
+    color: var(--primary);
+}
+
+.navbar-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.navbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.tree-stats {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+}
+
+.btn-outline {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.btn-outline:hover {
+    background: var(--bg-tertiary);
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: white;
+}
+
+.btn-danger:hover {
+    background: var(--danger-hover);
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+.btn-lg {
+    padding: 12px 24px;
+    font-size: 15px;
+}
+
+/* ============================================
+   Main Content
+   ============================================ */
+
+.main-content {
+    height: calc(100vh - var(--navbar-height));
+    position: relative;
+    overflow: hidden;
+}
+
+/* ============================================
+   Tree Container
+   ============================================ */
+
+.tree-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    cursor: grab;
+    background:
+        radial-gradient(circle, var(--border) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+.tree-container.grabbing {
+    cursor: grabbing;
+}
+
+.tree-viewport {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: 0 0;
+    will-change: transform;
+}
+
+.tree-connections {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10000px;
+    height: 10000px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.tree-connections line,
+.tree-connections path {
+    stroke: #CBD5E1;
+    stroke-width: 2;
+    fill: none;
+}
+
+.tree-nodes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+/* ============================================
+   Tree Node
+   ============================================ */
+
+.tree-node {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.tree-node:hover .node-circle {
+    transform: scale(1.05);
+}
+
+.tree-node.selected .node-circle {
+    box-shadow: 0 0 0 3px var(--primary);
+}
+
+.node-circle {
+    width: var(--node-size);
+    height: var(--node-size);
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    border: 3px solid #CBD5E1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.node-circle.male {
+    border-color: var(--male-color);
+    background: var(--male-bg);
+}
+
+.node-circle.female {
+    border-color: var(--female-color);
+    background: var(--female-bg);
+}
+
+.node-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.node-circle .node-avatar-placeholder {
+    color: #94A3B8;
+}
+
+.node-circle.male .node-avatar-placeholder {
+    color: var(--male-color);
+    opacity: 0.5;
+}
+
+.node-circle.female .node-avatar-placeholder {
+    color: var(--female-color);
+    opacity: 0.5;
+}
+
+.node-name {
+    margin-top: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-primary);
+    text-align: center;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.node-badges {
+    display: flex;
+    gap: 3px;
+    margin-top: 2px;
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.node-badge {
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-size: 9px;
+    font-weight: 600;
+    color: white;
+    white-space: nowrap;
+}
+
+.node-badge.badge-self {
+    background: var(--primary);
+}
+
+.node-badge.badge-relation {
+    background: var(--success);
+}
+
+.node-badge.badge-spouse {
+    background: var(--female-color);
+}
+
+/* Add Person Node (+ button) */
+.add-node {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.add-node .node-circle {
+    width: 60px;
+    height: 60px;
+    border: 2px dashed #CBD5E1;
+    background: var(--bg-primary);
+    cursor: pointer;
+}
+
+.add-node .node-circle:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.add-node .node-circle svg {
+    color: #CBD5E1;
+    transition: color 0.2s ease;
+}
+
+.add-node .node-circle:hover svg {
+    color: var(--primary);
+}
+
+.add-node .node-label {
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+/* ============================================
+   Tree Controls
+   ============================================ */
+
+.tree-controls {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 50;
+}
+
+.control-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--bg-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    color: var(--text-secondary);
+    box-shadow: var(--shadow-sm);
+}
+
+.control-btn:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+/* ============================================
+   Save Image Button
+   ============================================ */
+
+.save-image-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--bg-primary);
+    border: 1px solid var(--primary);
+    border-radius: var(--radius-lg);
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 50;
+    font-family: inherit;
+    box-shadow: var(--shadow-sm);
+}
+
+.save-image-btn:hover {
+    background: var(--primary-light);
+}
+
+/* ============================================
+   Sidebar
+   ============================================ */
+
+.sidebar {
+    position: absolute;
+    top: 0;
+    right: -340px;
+    width: var(--sidebar-width);
+    height: 100%;
+    background: var(--bg-primary);
+    border-left: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    z-index: 80;
+    overflow-y: auto;
+    transition: right 0.3s ease;
+    padding: 16px;
+}
+
+.sidebar.open {
+    right: 0;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.sidebar-edit-btn,
+.sidebar-close-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--bg-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+}
+
+.sidebar-edit-btn:hover,
+.sidebar-close-btn:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.person-avatar-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    border: 3px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    overflow: hidden;
+}
+
+.person-avatar-large.male {
+    border-color: var(--male-color);
+    background: var(--male-bg);
+}
+
+.person-avatar-large.female {
+    border-color: var(--female-color);
+    background: var(--female-bg);
+}
+
+.person-avatar-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.person-name {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.person-dates {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+/* Sidebar Sections */
+.sidebar-section {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.section-header h3 {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.section-add-btn {
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.section-add-btn:hover {
+    text-decoration: underline;
+}
+
+/* Relatives List */
+.relatives-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.relative-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.relative-item:hover {
+    background: var(--bg-tertiary);
+}
+
+.relative-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.relative-avatar.male {
+    border-color: var(--male-color);
+    background: var(--male-bg);
+}
+
+.relative-avatar.female {
+    border-color: var(--female-color);
+    background: var(--female-bg);
+}
+
+.relative-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.relative-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.relative-relation {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.relative-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Events List */
+.events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.event-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+}
+
+.event-label {
+    font-size: 13px;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.event-value {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+/* Biography */
+.biography-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Danger section */
+.sidebar-danger {
+    border-bottom: none;
+    padding-top: 8px;
+}
+
+/* ============================================
+   Forms
+   ============================================ */
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(74, 125, 255, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.gender-selector {
+    display: flex;
+    gap: 8px;
+}
+
+.gender-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: var(--bg-primary);
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.gender-btn.active[data-gender="male"] {
+    border-color: var(--male-color);
+    background: var(--male-bg);
+    color: var(--male-color);
+}
+
+.gender-btn.active[data-gender="female"] {
+    border-color: var(--female-color);
+    background: var(--female-bg);
+    color: var(--female-color);
+}
+
+.gender-btn:hover {
+    border-color: var(--text-muted);
+}
+
+.form-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.edit-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* ============================================
+   Modals
+   ============================================ */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    backdrop-filter: blur(2px);
+}
+
+.modal {
+    background: var(--bg-primary);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    width: 90%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-sm {
+    max-width: 380px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px 12px;
+}
+
+.modal-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.modal-body {
+    padding: 12px 24px 24px;
+}
+
+/* Relation Options */
+.relation-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.relation-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 8px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    color: var(--text-secondary);
+}
+
+.relation-option:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.relation-option span {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* ============================================
+   Welcome Screen
+   ============================================ */
+
+.welcome-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(248, 250, 252, 0.95);
+    z-index: 60;
+}
+
+.welcome-card {
+    text-align: center;
+    padding: 48px;
+    background: var(--bg-primary);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    max-width: 500px;
+}
+
+.welcome-card h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 20px 0 8px;
+}
+
+.welcome-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 28px;
+}
+
+.welcome-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.welcome-actions .btn {
+    justify-content: center;
+}
+
+/* ============================================
+   Toast
+   ============================================ */
+
+.toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    padding: 12px 24px;
+    background: var(--text-primary);
+    color: white;
+    border-radius: var(--radius-lg);
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 300;
+    transition: transform 0.3s ease;
+    box-shadow: var(--shadow-lg);
+    pointer-events: none;
+}
+
+.toast.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.error {
+    background: var(--danger);
+}
+
+.toast.success {
+    background: var(--success);
+}
+
+/* ============================================
+   Scrollbar
+   ============================================ */
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+
+@media (max-width: 768px) {
+    .navbar-right .btn span {
+        display: none;
+    }
+
+    .navbar-right .btn {
+        padding: 8px;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    :root {
+        --sidebar-width: 100%;
+    }
+
+    .relation-options {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

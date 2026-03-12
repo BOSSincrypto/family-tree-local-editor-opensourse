@@ -1072,6 +1072,18 @@ body {
 }
 
 /* ============================================
+   Mobile Menu (hidden by default)
+   ============================================ */
+
+.mobile-menu {
+    display: none;
+}
+
+.mobile-menu.active {
+    display: flex;
+}
+
+/* ============================================
    Mobile Menu Overlay
    ============================================ */
 
@@ -1223,11 +1235,6 @@ body {
     .lang-btn {
         padding: 0 8px;
         font-size: 11px;
-    }
-
-    /* Mobile dropdown menu */
-    .navbar-right.mobile-open {
-        /* This class is toggled by JS */
     }
 
     .mobile-menu {

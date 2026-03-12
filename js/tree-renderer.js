@@ -433,7 +433,7 @@ const TreeRenderer = {
         // Build badges
         let badges = '';
         if (isRoot) {
-            badges += '<span class="node-badge badge-self">Я</span>';
+            badges += `<span class="node-badge badge-self">${I18n.t('node.self')}</span>`;
         }
 
         const displayName = DataManager.getDisplayName(person.id);
@@ -466,7 +466,7 @@ const TreeRenderer = {
         if (!DataManager.hasFather(personId)) {
             const fatherX = pos.x - this.NODE_WIDTH / 2 - this.SPOUSE_GAP / 2;
             const fatherY = pos.y - this.NODE_HEIGHT - this.VERTICAL_GAP + 20;
-            this.createAddNode(fatherX, fatherY, 'Отец', () => {
+            this.createAddNode(fatherX, fatherY, I18n.t('relation.father'), () => {
                 if (this.onAddPerson) this.onAddPerson(personId, 'father');
             });
         }
@@ -475,7 +475,7 @@ const TreeRenderer = {
         if (!DataManager.hasMother(personId)) {
             const motherX = pos.x + this.NODE_WIDTH / 2 + this.SPOUSE_GAP / 2;
             const motherY = pos.y - this.NODE_HEIGHT - this.VERTICAL_GAP + 20;
-            this.createAddNode(motherX, motherY, 'Мать', () => {
+            this.createAddNode(motherX, motherY, I18n.t('relation.mother'), () => {
                 if (this.onAddPerson) this.onAddPerson(personId, 'mother');
             });
         }

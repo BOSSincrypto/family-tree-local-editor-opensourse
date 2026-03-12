@@ -113,7 +113,7 @@ const PersonEditor = {
         if (person.photo) {
             avatarEl.innerHTML = `<img src="${person.photo}" alt="${person.firstName}" onerror="this.style.display='none';">`;
         } else {
-            avatarEl.innerHTML = `<svg class="avatar-placeholder" viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#94a3b8" stroke-width="1.5">
+            avatarEl.innerHTML = `<svg class="avatar-placeholder" viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="var(--text-muted)" stroke-width="1.5">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                 <circle cx="12" cy="7" r="4"/>
             </svg>`;
@@ -133,7 +133,7 @@ const PersonEditor = {
         this.populateEvents(person);
 
         // Biography
-        document.getElementById('biographyText').textContent = person.biography || 'Нет информации';
+        document.getElementById('biographyText').textContent = person.biography || I18n.t('sidebar.noBio');
     },
 
     formatDates(person) {
@@ -147,16 +147,16 @@ const PersonEditor = {
         if (parts.length === 2) {
             return parts.join(' — ');
         } else if (parts.length === 1) {
-            return person.birthDate ? 'р. ' + parts[0] : 'ум. ' + parts[0];
+            return person.birthDate ? I18n.t('date.born', parts[0]) : I18n.t('date.died', parts[0]);
         }
         return '';
     },
 
     formatDate(dateStr) {
-        if (!dateStr) return 'Неизвестно';
+        if (!dateStr) return I18n.t('event.unknown');
         try {
             const date = new Date(dateStr + 'T00:00:00');
-            return date.toLocaleDateString('ru-RU', {
+            return date.toLocaleDateString(I18n.getDateLocale(), {
                 day: 'numeric',
                 month: 'long',
                 year: 'numeric'
@@ -171,7 +171,7 @@ const PersonEditor = {
         const relatives = DataManager.getRelatives(personId);
 
         if (relatives.length === 0) {
-            container.innerHTML = '<p style="font-size: 13px; color: var(--text-muted);">Нет добавленных родственников</p>';
+            container.innerHTML = `<p style="font-size: 13px; color: var(--text-muted);">${I18n.t('sidebar.noRelatives')}</p>`;
             return;
         }
 
@@ -187,7 +187,7 @@ const PersonEditor = {
             const genderClass = person.gender === 'female' ? 'female' : 'male';
             const avatarContent = person.photo
                 ? `<img src="${person.photo}" alt="${person.firstName}" onerror="this.style.display='none';">`
-                : `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#94a3b8" stroke-width="1.5">
+                : `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--text-muted)" stroke-width="1.5">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                     <circle cx="12" cy="7" r="4"/>
                    </svg>`;
@@ -215,15 +215,15 @@ const PersonEditor = {
         container.innerHTML = '';
 
         const events = [
-            { label: 'Рождение', value: person.birthDate ? this.formatDate(person.birthDate) + (person.birthPlace ? ', ' + person.birthPlace : '') : 'Неизвестно' },
-            { label: 'Смерть', value: person.deathDate ? this.formatDate(person.deathDate) + (person.deathPlace ? ', ' + person.deathPlace : '') : 'Неизвестно' }
+            { label: I18n.t('event.birth'), value: person.birthDate ? this.formatDate(person.birthDate) + (person.birthPlace ? ', ' + person.birthPlace : '') : I18n.t('event.unknown') },
+            { label: I18n.t('event.death'), value: person.deathDate ? this.formatDate(person.deathDate) + (person.deathPlace ? ', ' + person.deathPlace : '') : I18n.t('event.unknown') }
         ];
 
         // Add marriage events
         const spouses = DataManager.getSpouses(person.id);
         spouses.forEach(spouseId => {
             events.push({
-                label: 'Бракосочетание',
+                label: I18n.t('event.marriage'),
                 value: DataManager.getDisplayName(spouseId)
             });
         });
@@ -234,7 +234,7 @@ const PersonEditor = {
             const child = DataManager.getPerson(childId);
             if (child) {
                 events.push({
-                    label: 'Рождение ребёнка',
+                    label: I18n.t('event.childBirth'),
                     value: DataManager.getDisplayName(childId) + (child.birthDate ? ', ' + this.formatDate(child.birthDate) : '')
                 });
             }
@@ -255,7 +255,7 @@ const PersonEditor = {
         const person = DataManager.getPerson(personId);
         if (!person) return;
 
-        document.getElementById('editTitle').textContent = 'Редактирование';
+        document.getElementById('editTitle').textContent = I18n.t('edit.title');
         document.getElementById('editFirstName').value = person.firstName || '';
         document.getElementById('editLastName').value = person.lastName || '';
         document.getElementById('editMiddleName').value = person.middleName || '';
@@ -290,7 +290,7 @@ const PersonEditor = {
         };
 
         if (!personData.firstName) {
-            App.showToast('Имя обязательно для заполнения', 'error');
+            App.showToast(I18n.t('toast.nameRequired'), 'error');
             return;
         }
 
@@ -301,15 +301,15 @@ const PersonEditor = {
             this.onPersonUpdated(this.currentPersonId);
         }
 
-        App.showToast('Данные сохранены');
+        App.showToast(I18n.t('toast.dataSaved'));
     },
 
     requestDeletePerson() {
         if (!this.currentPersonId) return;
         const name = DataManager.getDisplayName(this.currentPersonId);
         App.showConfirm(
-            'Удалить персону?',
-            `Вы уверены, что хотите удалить "${name}" и все связи с этой персоной?`,
+            I18n.t('confirm.deletePerson.title'),
+            I18n.t('confirm.deletePerson.message', name),
             () => {
                 const deletedId = this.currentPersonId;
                 this.closeSidebar();
@@ -317,7 +317,7 @@ const PersonEditor = {
                 if (this.onPersonDeleted) {
                     this.onPersonDeleted(deletedId);
                 }
-                App.showToast('Персона удалена');
+                App.showToast(I18n.t('toast.personDeleted'));
             }
         );
     }

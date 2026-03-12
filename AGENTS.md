@@ -7,6 +7,7 @@
 - Data stored in browser `localStorage`; backup/restore via JSON files
 - Bilingual interface: Russian (default) and English
 - Dark/light theme with system preference detection
+- Responsive design: mobile-first with breakpoints at 360px, 480px, 768px
 - Vanilla HTML + CSS + JavaScript (ES6+, no frameworks)
 
 ## Project Structure
@@ -38,6 +39,8 @@
 - **Language**: Vanilla JavaScript (ES6+). No TypeScript, no transpilation
 - **No build step**: files are served as-is via GitHub Pages
 - **CSS**: use CSS custom properties (variables) defined in `:root` and `[data-theme="dark"]`
+- **Responsive**: media queries at 768px (tablet), 480px (mobile), 360px (small mobile); touch-friendly via `@media (hover: none) and (pointer: coarse)`
+- **Mobile menu**: hamburger button visible at ≤480px; action buttons move to dropdown `.mobile-menu`
 - **i18n**: all user-facing strings must use `I18n.t('key')` in JS or `data-i18n` / `data-i18n-title` / `data-i18n-placeholder` attributes in HTML. Never hardcode UI text
 - **File names**: always in English, no Cyrillic or special characters
 - **No external dependencies**: no npm, no CDN libs (only Google Fonts via CSS link)

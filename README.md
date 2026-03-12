@@ -17,6 +17,7 @@ Built for [GitHub Pages](https://pages.github.com/) deployment.
 - **Dark / Light theme** — toggle in the navbar, remembers your preference
 - **Bilingual UI** — Russian and English interface, switch anytime
 - **Patronymic support** — middle name (otchestvo) field for Russian naming conventions
+- **Responsive design** — works on phones, tablets, and desktops; hamburger menu on mobile, touch-friendly controls
 - **Zero dependencies** — pure HTML, CSS, JavaScript. No frameworks, no build step
 
 ## Quick Start
